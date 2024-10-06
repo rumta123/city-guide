@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная карта с местами и аудиогидом</title>
+    <!-- Подключаем API Yandex Maps -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=231f6d76-cca7-4b49-ab49-2db0430603e0&lang=ru_RU"
+        type="text/javascript"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        #reviewFormContainer {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        #reviewFormContainer input,
+        #reviewFormContainer textarea,
+        #reviewFormContainer select,
+        #reviewFormContainer button {
+            margin: 5px 0;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .review {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .photos-container {
+            margin-top: 10px;
+        }
+
+        .photos-container img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .audio-player-container{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Путеводитель по городу Москва</h1>
+    <div id="categoriesFilter">
+        <label><input type="checkbox" id="category1" value="достопримечательность" checked>
+            Достопримечательности</label>
+        <label><input type="checkbox" id="category2" value="ресторан"> Рестораны</label>
+        <label><input type="checkbox" id="category3" value="интересное место" checked> Интересные места</label>
+    </div>
+    <div id="map"></div>
+    <div id="distance"></div>
+    <div id="audioPlayerContainer" class="audio-player-container">
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="" type="audio/mp3">
+            Ваш браузер не поддерживает проигрывание аудио.
+        </audio>
+    </div>
+
+    <div id="audioPlayerContainer1" class="audio-player-container1">
+        <audio id="audioPlayer1" controls>
+            <source id="audioSource1" src="" type="audio/mp3">
+            Ваш браузер не поддерживает проигрывание аудио.
+        </audio>
+    </div>
+   
+    <div id="reviewFormContainer" style="display: none;">
+       
+
+        <button id="markVisitedButton">Отметить как посещенное</button>
+        <h3 id="placeName"></h3>
+        <div id="average-rating-all"></div>
+        <input type="text" id="reviewAuthor" placeholder="Ваше имя">
+        <textarea id="reviewText" placeholder="Текст отзыва"></textarea>
+        <select id="reviewRating">
+            <option value="1">1 звезда</option>
+            <option value="2">2 звезды</option>
+            <option value="3">3 звезды</option>
+            <option value="4">4 звезды</option>
+            <option value="5">5 звезд</option>
+        </select>
+        <button id="addReviewButton">Добавить</button>
+        <input type="file" id="photoInput" accept="image/*">
+        <div class="photos-container" id="photosContainer"></div> 
+        
+        <div id="reviews-container"></div>
+    </div>
+
+    <h3>События и мероприятия</h3>
+
+
+    <!-- Форма для добавления нового события -->
+    <div>
+        <label for="eventNameInput">Название события:</label>
+        <input type="text" id="eventNameInput" placeholder="Введите название">
+        <br>
+        <label for="eventDateInput">Дата и время:</label>
+        <input type="datetime-local" id="eventDateInput">
+        <br>
+        <button id="addEventButton" onclick="addEvent()">Добавить событие</button>
+    </div>
+
+    <!-- Список событий -->
+    <div id="eventsList">
+        <h4>Предстоящие события:</h4>
+        <ul id="events">
+            <!-- Сюда будут добавляться элементы списка событий -->
+        </ul>
+    </div>
+
+    <!-- Управление расписанием -->
+    <div id="schedule">
+        <h4>Ваше расписание:</h4>
+        <ul id="scheduleList">
+            <!-- Сюда будут добавляться элементы вашего расписания -->
+        </ul>
+    </div>
+
+    <!-- История посещений -->
+    <div id="visit-history">
+        <h4>История посещений:</h4>
+        <ul id="historyList"></ul>
+    </div>
+
+
+
+<script src="app.js"></script>
+</body>
+
+</html>
